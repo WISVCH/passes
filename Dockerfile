@@ -1,7 +1,7 @@
 FROM rust:latest AS builder
 
 # Install ca-certificates package
-RUN apt-get update && apt-get install -y ca-certificates libssl-dev
+RUN apt-get update && apt-get install -y ca-certificates openssl
 
 WORKDIR /usr/src/passes
 COPY . .
