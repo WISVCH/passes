@@ -1,0 +1,9 @@
+/target
+.env
+key.json
+.DS_Store
+*.p12
+*.cer
+*.pem
+/pass
+.vscode

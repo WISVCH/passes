@@ -1,0 +1,10 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "pass.nl.tudelft.ch.passes.events",
+  "serialNumber": "1234567890",
+  "backgroundColor": "rgb(255,255,255)",
+  "foregroundColor": "rgb(30, 39, 74)",
+  "labelColor": "rgb(255, 255, 255)",
+  "organizationName": "W.I.S.V. 'Christiaan Huygens'",
+  "description": "Event"
+}
