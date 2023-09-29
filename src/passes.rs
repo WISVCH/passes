@@ -61,7 +61,7 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
     pass.export_to_file(
         env::var("CERTIFICATE_PATH").unwrap().as_str(),
         env::var("CERTIFICATE_PASSWORD").unwrap().as_str(),
-        Path::new("apple_wdrca.pem"),
+        Path::new("keys/apple_wdrca.pem"),
         Path::new("./Eventpass.pkpass"),
     )
     .unwrap();
