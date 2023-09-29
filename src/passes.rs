@@ -33,7 +33,7 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
 
     pass.barcode(Barcode::new(
         BarcodeFormat::PkBarcodeFormatQr,
-        &data.code.as_str(),
+        data.code.as_str(),
         "iso-8859-1",
     ));
 
