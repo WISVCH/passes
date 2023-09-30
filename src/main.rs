@@ -1,7 +1,6 @@
 use axum::{routing::get, Router};
 use std::net::SocketAddr;
 use std::str::FromStr;
-
 mod passes;
 
 mod models;

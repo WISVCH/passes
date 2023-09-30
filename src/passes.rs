@@ -22,7 +22,7 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
         }
     };
 
-    let mut pass = Pass::from_path(Path::new("./Event.pass")).unwrap();
+    let mut pass = Pass::from_path(Path::new(env::var("TEMPLATE_PATH").unwrap().as_str())).unwrap();
 
     // Set general attributes
     pass.pass_type_identifier(env::var("APPLE_PASS_TYPE_IDENTIFIER").unwrap().as_str());
