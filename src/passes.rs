@@ -22,6 +22,10 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
         }
     };
 
+    println!(
+        "-- Loading template from {}",
+        env::var("TEMPLATE_PATH").unwrap()
+    );
     let mut pass = Pass::from_path(Path::new(env::var("TEMPLATE_PATH").unwrap().as_str())).unwrap();
 
     // Set general attributes
@@ -57,6 +61,10 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
 
     pass.event_ticket(event_ticket);
 
+    println!(
+        "-- Loading certificate from {}",
+        env::var("CERTIFICATE_PATH").unwrap()
+    );
     // Sign, comprass and save pass
     pass.export_to_file(
         env::var("CERTIFICATE_PATH").unwrap().as_str(),
