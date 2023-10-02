@@ -9,11 +9,8 @@ use wallet_pass::{
 use crate::models::Pass as PassModel;
 
 pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoResponse, String> {
-    match (data.validate_date(), data.validate_time()) {
-        (Ok(_), Ok(_)) => format!(
-            "Your pass for {} at {} on {} at {} has been confirmed.",
-            data.name, data.location, data.date, data.time
-        ),
+    let error = match (data.validate_date(), data.validate_time()) {
+        (Ok(_), Ok(_)) => "".to_string(),
         (Err(_), Ok(_)) => "Invalid date format. Please use yyyy-mm-dd.".to_string(),
         (Ok(_), Err(_)) => "Invalid time format. Please use HH:MM.".to_string(),
         (Err(_), Err(_)) => {
@@ -21,6 +18,10 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
                 .to_string()
         }
     };
+
+    if !error.is_empty() {
+        return Err(error);
+    }
 
     println!(
         "-- Loading template from {}",
@@ -43,7 +44,7 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
 
     let mut event_ticket = Details::new();
 
-    let mut field = Field::new_string("event", data.name.as_str());
+    let mut field = Field::new_string("event", data.title.as_str());
     field.label("Event");
     event_ticket.add_primary_field(field);
 
@@ -55,9 +56,17 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
     field.label("Time");
     event_ticket.add_secondary_field(field);
 
-    let mut field = Field::new_string("loc", data.location.as_str());
-    field.label("Location");
-    event_ticket.add_auxiliary_field(field);
+    if let Some(location) = data.location {
+        let mut field = Field::new_string("loc", location.as_str());
+        field.label("Location");
+        event_ticket.add_auxiliary_field(field);
+    }
+
+    if let Some(name) = data.name {
+        let mut field = Field::new_string("name", name.as_str());
+        field.label("Name");
+        event_ticket.add_auxiliary_field(field);
+    }
 
     pass.event_ticket(event_ticket);
 

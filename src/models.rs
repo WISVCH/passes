@@ -3,11 +3,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Pass {
-    pub name: String,
+    pub title: String,
     pub description: String,
     pub date: String,
     pub time: String,
-    pub location: String,
+    pub location: Option<String>,
+    pub name: Option<String>,
     pub code: String,
 }
 
