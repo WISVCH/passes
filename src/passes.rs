@@ -56,16 +56,20 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
     field.label("Time");
     event_ticket.add_secondary_field(field);
 
-    if let Some(location) = data.location {
-        let mut field = Field::new_string("loc", location.as_str());
-        field.label("Location");
-        event_ticket.add_auxiliary_field(field);
+    if let Some(name) = data.name {
+        if !name.is_empty() {
+            let mut field = Field::new_string("name", name.as_str());
+            field.label("Name");
+            event_ticket.add_auxiliary_field(field);
+        }
     }
 
-    if let Some(name) = data.name {
-        let mut field = Field::new_string("name", name.as_str());
-        field.label("Name");
-        event_ticket.add_auxiliary_field(field);
+    if let Some(location) = data.location {
+        if !location.is_empty() {
+            let mut field = Field::new_string("loc", location.as_str());
+            field.label("Location");
+            event_ticket.add_auxiliary_field(field);
+        }
     }
 
     pass.event_ticket(event_ticket);
