@@ -1,3 +1,4 @@
+use std::io::Cursor;
 use std::{env, path::Path};
 
 use axum::{extract::Query, http::header, response::IntoResponse};
@@ -78,17 +79,16 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
         "-- Loading certificate from {}",
         env::var("CERTIFICATE_PATH").unwrap()
     );
-    // Sign, comprass and save pass
-    pass.export_to_file(
-        env::var("CERTIFICATE_PATH").unwrap().as_str(),
-        env::var("CERTIFICATE_PASSWORD").unwrap().as_str(),
-        Path::new("keys/apple_wdrca.pem"),
-        Path::new("./Eventpass.pkpass"),
-    )
-    .unwrap();
 
-    // Get content of file as generic bytes
-    let pass_content = std::fs::read("./Eventpass.pkpass").unwrap();
+    // Sign, compress and save pass
+    let pass_cursor = pass
+        .export(
+            env::var("CERTIFICATE_PATH").unwrap().as_str(),
+            env::var("CERTIFICATE_PASSWORD").unwrap().as_str(),
+            Path::new("keys/apple_wdrca.pem"),
+            Cursor::new(Vec::<u8>::new()),
+        )
+        .unwrap();
 
     // Return content of file as response
     Ok((
@@ -99,6 +99,6 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
                 "attachment; filename=\"Eventpass.pkpass\"",
             ),
         ],
-        pass_content,
+        pass_cursor.into_inner(),
     ))
 }
