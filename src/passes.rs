@@ -43,6 +43,10 @@ pub async fn passes_handler(Query(data): Query<PassModel>) -> Result<impl IntoRe
         "iso-8859-1",
     ));
 
+    // Set relevant date
+    let date = format!("{}T{}:00+02:00", data.date, data.time);
+    pass.relevant_date(date.as_str());
+
     let mut event_ticket = Details::new();
 
     let mut field = Field::new_string("event", data.title.as_str());
