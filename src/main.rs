@@ -1,9 +1,8 @@
 use axum::{routing::get, Router};
-use std::net::SocketAddr;
-use std::str::FromStr;
-mod passes;
+use tokio::net::TcpListener;
 
 mod models;
+mod passes;
 
 extern crate dotenv;
 use dotenv::dotenv;
@@ -20,11 +19,11 @@ async fn main() {
     let port = std::env::var("PORT").unwrap_or(String::from("3000"));
     println!("Listening on port {}", port);
 
-    // // convert the port to a socket address
-    let addr = SocketAddr::from_str(&format!("0.0.0.0:{}", port)).unwrap();
+    let listener = TcpListener::bind(format!("0.0.0.0:{}", port))
+        .await
+        .unwrap();
 
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
+    axum::serve(listener, app.into_make_service())
         .await
         .unwrap();
 }
