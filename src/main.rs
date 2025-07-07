@@ -21,9 +21,7 @@ async fn main() {
     let port = std::env::var("PORT").unwrap_or(String::from("3000"));
     println!("Listening on port {port}");
 
-    let listener = TcpListener::bind(format!("0.0.0.0:{port}"))
-        .await
-        .unwrap();
+    let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await.unwrap();
 
     axum::serve(listener, app.into_make_service())
         .with_graceful_shutdown(shutdown_signal())
