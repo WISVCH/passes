@@ -19,9 +19,9 @@ async fn main() {
         .route("/passes", get(passes_handler));
 
     let port = std::env::var("PORT").unwrap_or(String::from("3000"));
-    println!("Listening on port {}", port);
+    println!("Listening on port {port}");
 
-    let listener = TcpListener::bind(format!("0.0.0.0:{}", port))
+    let listener = TcpListener::bind(format!("0.0.0.0:{port}"))
         .await
         .unwrap();
 
