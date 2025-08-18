@@ -13,7 +13,7 @@ jobs:
     name: common
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Rust
         run: rustup update stable && rustup default stable
       - name: Cargo cache
