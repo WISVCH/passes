@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "passTypeIdentifier": "pass.nl.tudelft.ch.passes.events",
+  "passTypeIdentifier": "pass.nl.tudelft.ch.passes",
   "serialNumber": "1234567890",
   "backgroundColor": "rgb(255,255,255)",
   "foregroundColor": "rgb(30, 39, 74)",
