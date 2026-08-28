@@ -2,7 +2,7 @@ FROM rust:1.97.1-bookworm AS builder
 
 WORKDIR /src
 COPY . .
-RUN cargo build --release
+RUN cargo build --release --locked
 
 FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y libssl3 && rm -rf /var/lib/apt/lists/*
