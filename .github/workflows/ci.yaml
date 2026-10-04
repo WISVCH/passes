@@ -13,7 +13,7 @@ jobs:
     name: common
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Show pinned Rust toolchain
         run: rustc --version
       - name: Cargo cache
