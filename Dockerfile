@@ -1,4 +1,4 @@
-FROM rust:1.100.0-bookworm AS chef
+FROM rust:1.100.0-bookworm@sha256:75d26c23c24cc6ea1cdabf0714a6bff8fd7bf3248716043fd7ae86dac7f41b94 AS chef
 RUN cargo install --locked cargo-chef --version 0.1.73
 
 WORKDIR /src
@@ -12,7 +12,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 RUN cargo build --release --locked
 
-FROM debian:bookworm-slim
+FROM debian:bookworm-slim@sha256:e67eeead736ff7bbe258ef088bff683635c561b1fcfefad0806c1df4ab49ce0e
 RUN apt-get update && apt-get install -y --no-install-recommends libssl3 && \
     groupadd --gid 10001 passes && \
     useradd --uid 10001 --gid passes --no-create-home --no-log-init --shell /usr/sbin/nologin passes && \
